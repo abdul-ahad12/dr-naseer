@@ -235,6 +235,97 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a:hover::after { transform: scaleX(1); }
+
+/* Nav dropdown (mega-menu) */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown > a .caret {
+  display: inline-block;
+  font-size: 0.7rem;
+  margin-left: 3px;
+  transition: transform 0.25s ease;
+}
+.nav-dropdown:hover > a .caret,
+.nav-dropdown:focus-within > a .caret { transform: rotate(180deg); }
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  min-width: 680px;
+  z-index: 200;
+}
+/* Invisible hover bridge — fills the 18px gap between trigger and menu so
+   moving the mouse down doesn't break the :hover chain. */
+.nav-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -22px;
+  height: 22px;
+  background: transparent;
+}
+/* Keep .nav-dropdown's hover live while the cursor is anywhere in the trigger
+   area or directly below it (covers the gap before menu fully opens). */
+.nav-dropdown::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 22px;
+  background: transparent;
+  pointer-events: auto;
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.nav-dropdown-col h5 {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.nav-dropdown-col a {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  padding: 0.32rem 0;
+  transition: color 0.2s ease, padding 0.2s ease;
+}
+.nav-dropdown-col a:hover { color: var(--accent); padding-left: 4px; }
+.nav-dropdown-col a::after { display: none !important; }
+html[dir="rtl"] .nav-dropdown-col a:hover { padding-left: 0; padding-right: 4px; }
+@media (max-width: 1100px) {
+  .nav-dropdown-menu { min-width: 560px; }
+}
+@media (max-width: 820px) {
+  .nav-dropdown-menu { display: none; }
+}
 .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
 .theme-toggle {
   width: 38px; height: 38px;
@@ -516,6 +607,233 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 
 @media (max-width: 880px) {
   .reviews-float { right: 1rem; bottom: -28px; }
+}
+
+/* ============================================================
+   HERO CAROUSEL
+   ============================================================ */
+.hero-carousel {
+  padding: 0 !important;
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  min-height: 620px;
+  max-height: 880px;
+  background: var(--navy-900);
+}
+.hero-carousel .slides {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+.hero-carousel .slide {
+  flex: 0 0 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.slide-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.08);
+  transition: transform 8s ease-out;
+  z-index: 0;
+}
+.slide.active .slide-bg { transform: scale(1.0); }
+.slide-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, rgba(5,13,31,0.88) 0%, rgba(5,13,31,0.55) 55%, rgba(5,13,31,0.7) 100%);
+  z-index: 1;
+}
+.slide-overlay-gold {
+  background:
+    linear-gradient(110deg, rgba(160,114,33,0.85) 0%, rgba(8,21,50,0.7) 55%, rgba(5,13,31,0.85) 100%);
+}
+.slide-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--cream);
+  padding-top: 6.5rem;
+  padding-bottom: 5rem;
+  max-width: 820px;
+}
+html[dir="rtl"] .slide-content { margin-left: auto; margin-right: 0; }
+
+.slide-content .hero-tag {
+  align-self: flex-start;
+  margin-bottom: 0;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(245,239,226,0.3);
+  color: var(--cream);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.slide-content h1 {
+  margin-top: 1.5rem;
+  font-family: 'Fraunces', serif;
+  font-weight: 350;
+  font-size: clamp(2.5rem, 7vw, 5.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-variation-settings: "SOFT" 50, "WONK" 1, "opsz" 144;
+  color: var(--cream);
+}
+.slide-content h1 .accent {
+  font-style: italic;
+  font-weight: 300;
+  font-family: 'Instrument Serif', serif;
+  color: var(--gold-300);
+  letter-spacing: -0.01em;
+}
+.slide-content h1 .stroke {
+  -webkit-text-stroke: 1.5px var(--cream);
+  color: transparent;
+  font-weight: 600;
+}
+.slide-content .hero-sub {
+  margin-top: 1.25rem;
+  color: rgba(245, 239, 226, 0.85);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  max-width: 540px;
+}
+.slide-content .hero-cta {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.slide-content .btn-ghost {
+  border-color: rgba(245, 239, 226, 0.4);
+  color: var(--cream);
+}
+.slide-content .btn-ghost:hover {
+  border-color: var(--gold-300);
+  color: var(--gold-300);
+}
+[data-theme="dark"] .slide-content .btn-primary { color: var(--navy-900); }
+
+/* 30% offer slide specifics */
+.slide-offer .offer-stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle at 50% 38%, var(--gold-300), var(--gold-600));
+  border-radius: 50%;
+  color: var(--navy-900);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35), inset 0 0 0 4px rgba(255,255,255,0.18);
+  font-family: 'Fraunces', serif;
+  position: relative;
+  align-self: flex-start;
+}
+.slide-offer .offer-stamp::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border: 1px dashed rgba(245, 239, 226, 0.5);
+  border-radius: 50%;
+  animation: spin 30s linear infinite;
+}
+.slide-offer .offer-stamp .num {
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: flex-start;
+}
+.slide-offer .offer-stamp .num sup { font-size: 0.42em; font-weight: 500; margin-top: 0.55em; margin-left: 2px; }
+.slide-offer .offer-stamp .lbl {
+  font-family: 'Geist', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  margin-top: 0.2rem;
+}
+
+/* Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: var(--cream);
+  display: grid;
+  place-items: center;
+  z-index: 5;
+  transition: all 0.3s cubic-bezier(.65,0,.35,1);
+}
+.carousel-arrow:hover {
+  background: var(--gold-400);
+  color: var(--navy-900);
+  border-color: var(--gold-400);
+  transform: translateY(-50%) scale(1.05);
+}
+.carousel-arrow i { font-size: 1.25rem; }
+.carousel-prev { left: 1.75rem; }
+.carousel-next { right: 1.75rem; }
+html[dir="rtl"] .carousel-prev { left: auto; right: 1.75rem; }
+html[dir="rtl"] .carousel-next { right: auto; left: 1.75rem; }
+
+/* Dots */
+.carousel-dots {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.55rem;
+  z-index: 5;
+}
+.carousel-dot {
+  width: 30px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.3);
+  border: 0;
+  cursor: pointer;
+  transition: background 0.3s ease, width 0.3s ease;
+  padding: 0;
+}
+.carousel-dot.active { background: var(--gold-400); width: 48px; }
+.carousel-dot:hover { background: rgba(255,255,255,0.55); }
+
+@media (max-width: 880px) {
+  .hero-carousel { height: 92vh; min-height: 560px; }
+  .slide-content { padding-top: 5.5rem; }
+  .carousel-arrow { width: 42px; height: 42px; }
+  .carousel-arrow i { font-size: 1.05rem; }
+  .carousel-prev { left: 0.75rem; }
+  .carousel-next { right: 0.75rem; }
+  html[dir="rtl"] .carousel-prev { right: 0.75rem; }
+  html[dir="rtl"] .carousel-next { left: 0.75rem; }
+  .slide-offer .offer-stamp { width: 100px; height: 100px; }
+  .slide-offer .offer-stamp .num { font-size: 1.9rem; }
+}
+@media (max-width: 540px) {
+  .hero-carousel { height: auto; min-height: 580px; }
+  .slide-content { padding-bottom: 7rem; }
+  .slide-content .hero-sub { font-size: 1rem; }
 }
 
 /* ============================================================
@@ -1976,9 +2294,75 @@ html[lang="ur"] .appointment-form textarea {
     </a>
     <div class="nav-links">
       <a href="#services" data-i18n="nav.services">Services</a>
-      <a href="#surgeries" data-i18n="nav.surgeries">Surgeries</a>
-      <a href="#doctor" data-i18n="nav.about">About Dr. Naseer</a>
-      <a href="#facility" data-i18n="nav.facility">Facility</a>
+      <div class="nav-dropdown">
+        <a href="#surgeries" tabindex="0"><span data-i18n="nav.surgeries">Surgeries</span> <span class="caret">▾</span></a>
+        <div class="nav-dropdown-menu" role="menu">
+          <div class="nav-dropdown-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="surg.cat_ear">Ear Surgeries</h5>
+              <a href="surgeries/ossiculoplasty.html" data-i18n="surg.ossiculoplasty">Ossiculoplasty</a>
+              <a href="surgeries/myringoplasty.html" data-i18n="surg.myringoplasty">Myringoplasty</a>
+              <a href="surgeries/myringotomy-grommet.html" data-i18n="surg.grommet">Myringotomy &amp; Grommet</a>
+              <a href="surgeries/mastoidectomy.html" data-i18n="surg.mastoidectomy">Mastoidectomy</a>
+              <a href="surgeries/cochlear-implant.html" data-i18n="surg.cochlear">Cochlear Implant</a>
+              <a href="surgeries/stapes-surgery.html" data-i18n="surg.stapes">Stapes Surgery</a>
+              <a href="surgeries/eustachian-balloon.html" data-i18n="surg.et_balloon">Eustachian Tube Balloon</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="surg.cat_nose">Nose Surgeries</h5>
+              <a href="surgeries/balloon-sinuplasty.html" data-i18n="surg.balloon_sinuplasty">Balloon Sinuplasty</a>
+              <a href="surgeries/csf-leak-repair.html" data-i18n="surg.csf_leak">CSF Leak Repair</a>
+              <a href="surgeries/fess.html" data-i18n="surg.fess">Sinus Surgery (FESS)</a>
+              <a href="surgeries/endoscopic-dcr.html" data-i18n="surg.dcr">Endoscopic DCR</a>
+              <a href="surgeries/septoplasty.html" data-i18n="surg.septoplasty">Septoplasty &amp; Turbinate</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="surg.cat_throat">Throat &amp; Voice</h5>
+              <a href="surgeries/adenoidectomy.html" data-i18n="surg.adenoidectomy">Adenoidectomy</a>
+              <a href="surgeries/tonsillectomy.html" data-i18n="surg.tonsillectomy">Tonsillectomy</a>
+              <a href="surgeries/sleep-apnea-surgery.html" data-i18n="surg.uppp">Snoring / OSA Surgery</a>
+              <a href="surgeries/microlaryngoscopy.html" data-i18n="surg.microlaryngoscopy">Microlaryngoscopy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <a href="#" tabindex="0"><span data-i18n="nav.conditions">ENT Conditions</span> <span class="caret">▾</span></a>
+        <div class="nav-dropdown-menu" role="menu">
+          <div class="nav-dropdown-grid">
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="cond.cat_ear">Ear</h5>
+              <a href="conditions/ear-wax.html" data-i18n="cond.ear_wax">Ear Wax</a>
+              <a href="conditions/ear-discharge.html" data-i18n="cond.ear_discharge">Ear Discharge</a>
+              <a href="conditions/ear-pain.html" data-i18n="cond.ear_pain">Ear Pain</a>
+              <a href="conditions/hearing-loss.html" data-i18n="cond.hearing_loss">Hearing Loss</a>
+              <a href="conditions/deafness-children.html" data-i18n="cond.deafness_children">Deafness in Children</a>
+              <a href="conditions/dizziness.html" data-i18n="cond.dizziness">Dizziness</a>
+              <a href="conditions/eustachian-tube.html" data-i18n="cond.eustachian">Eustachian Tube Dysfunction</a>
+              <a href="conditions/tinnitus.html" data-i18n="cond.tinnitus">Tinnitus</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="cond.cat_nose">Nose</h5>
+              <a href="conditions/sinusitis.html" data-i18n="cond.sinusitis">Sinusitis</a>
+              <a href="conditions/nasal-allergy.html" data-i18n="cond.nasal_allergy">Nasal Allergy</a>
+              <a href="conditions/nose-bleeding.html" data-i18n="cond.nose_bleeding">Nose Bleeding</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="cond.cat_throat">Throat</h5>
+              <a href="conditions/adenoids.html" data-i18n="cond.adenoids">Adenoids</a>
+              <a href="conditions/tonsillitis.html" data-i18n="cond.tonsillitis">Tonsillitis</a>
+              <a href="conditions/voice-change.html" data-i18n="cond.voice_change">Voice Change</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="cond.cat_other">Other</h5>
+              <a href="conditions/sleep-apnea.html" data-i18n="cond.sleep_apnea">Snoring &amp; Sleep Apnea</a>
+              <a href="conditions/facial-paralysis.html" data-i18n="cond.facial_paralysis">Facial Paralysis</a>
+              <a href="conditions/vertigo.html" data-i18n="cond.vertigo">Vertigo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#doctor" data-i18n="nav.about">About</a>
       <a href="#appointment" data-i18n="nav.appointment">Appointment</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
     </div>
@@ -1999,82 +2383,120 @@ html[lang="ur"] .appointment-form textarea {
   </div>
 </nav>
 
-<!-- ============================== HERO ============================== -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div>
-      <div class="hero-tag">
-        <span class="dot"></span>
-        <span data-i18n="hero.tag">Accepting new patients · Tolichowki, Hyderabad</span>
-      </div>
-      <h1 data-i18n="hero.title" data-i18n-html>
-        <span class="serif">Care for the</span><br>
-        <span class="accent">ear, nose</span><br>
-        <span class="stroke serif">&amp; throat —</span><br>
-        <span class="italic-serif" style="color:var(--accent);">refined.</span>
-      </h1>
-      <p class="hero-sub" data-i18n="hero.sub">
-        Two decades of clinical precision under one roof. Comprehensive ENT diagnostics, advanced endoscopic surgery, and pediatric care — delivered with the calm of a private practice.
-      </p>
-      <div class="hero-cta">
-        <a href="#appointment" class="btn btn-primary"><i class="ph ph-calendar-check"></i> <span data-i18n="hero.cta1">Schedule consultation</span></a>
-        <a href="#services" class="btn btn-ghost"><i class="ph ph-arrow-down"></i> <span data-i18n="hero.cta2">Explore services</span></a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="num">20<sup>+</sup></div>
-          <div class="lbl" data-i18n="hero.stat1">Years practising</div>
+<!-- ============================== HERO CAROUSEL ============================== -->
+<section class="hero hero-carousel" id="heroCarousel" aria-roledescription="carousel">
+  <div class="slides" id="slides">
+
+    <!-- Slide 1 — Brand intro -->
+    <article class="slide active" data-slide="0" aria-roledescription="slide" aria-label="1 of 4">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-overlay" aria-hidden="true"></div>
+      <div class="container slide-content">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          <span data-i18n="hero.tag">Accepting new patients · Tolichowki, Hyderabad</span>
         </div>
-        <div class="stat">
-          <div class="num">4.9<sup>★</sup></div>
-          <div class="lbl" data-i18n="hero.stat2">441 Google reviews</div>
-        </div>
-        <div class="stat">
-          <div class="num">15<sup>+</sup></div>
-          <div class="lbl" data-i18n="hero.stat3">Surgical procedures</div>
+        <h1 data-i18n="hero.title" data-i18n-html>
+          <span class="serif">Care for the</span><br>
+          <span class="accent">ear, nose</span><br>
+          <span class="stroke serif">&amp; throat —</span><br>
+          <span class="italic-serif" style="color:var(--gold-300);">refined.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero.sub">
+          Two decades of clinical precision under one roof. Comprehensive ENT diagnostics, advanced endoscopic surgery, and pediatric care — delivered with the calm of a private practice.
+        </p>
+        <div class="hero-cta">
+          <a href="#appointment" class="btn btn-primary"><i class="ph ph-calendar-check"></i> <span data-i18n="hero.cta1">Schedule consultation</span></a>
+          <a href="#services" class="btn btn-ghost"><i class="ph ph-arrow-down"></i> <span data-i18n="hero.cta2">Explore services</span></a>
         </div>
       </div>
-    </div>
-    <div class="hero-visual">
-      <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&amp;q=80&amp;auto=format&amp;fit=crop" alt="Dr. Mohammed Naseeruddin, ENT specialist" class="hv-photo" loading="eager" />
-      <div class="hv-overlay" aria-hidden="true"></div>
-      <div class="hv-content">
-        <div class="hv-top">
-          <div><span data-i18n="hv.est">EST. PRACTICE</span><br><span style="color:var(--cream); font-family:'Fraunces',serif; font-size: 1rem; letter-spacing: -0.01em;" data-i18n="hv.location">Hyderabad</span></div>
-          <div class="corner"></div>
+    </article>
+
+    <!-- Slide 2 — Surgical expertise -->
+    <article class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 4">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-overlay" aria-hidden="true"></div>
+      <div class="container slide-content">
+        <div class="hero-tag">
+          <span class="dot" style="background:#e6c481;"></span>
+          <span data-i18n="hero2.tag">Surgical Excellence · In-house</span>
         </div>
-        <div class="hv-center">
-          <div class="name" data-i18n="hv.name" data-i18n-html>Dr. Mohammed<br>Naseeruddin</div>
-          <div class="credentials" data-i18n="hv.creds">M.S. ENT — Senior Consultant</div>
-        </div>
-        <div class="hv-bottom">
-          <div>
-            <span class="k" data-i18n="hv.spec_k">Speciality</span>
-            <span class="v" data-i18n="hv.spec_v">Otolaryngology</span>
-          </div>
-          <div style="text-align:right;">
-            <span class="k" data-i18n="hv.reg_k">Reg. No.</span>
-            <span class="v" data-i18n="hv.reg_v">TSMC · Active</span>
-          </div>
-        </div>
-      </div>
-      <div class="reviews-float">
-        <div>
-          <div class="stars">
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-          </div>
-          <div class="meta">
-            <strong>4.9 / 5</strong><br>
-            <small data-i18n="reviews.label">441 GOOGLE REVIEWS</small>
-          </div>
+        <h1 data-i18n="hero2.title" data-i18n-html>
+          <span class="serif">Procedures performed</span><br>
+          <span class="accent">in-house —</span><br>
+          <span class="italic-serif" style="color:var(--gold-300);">with care.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero2.sub">
+          From minimally-invasive endoscopic sinus surgery to advanced microlaryngeal work — a complete surgical practice under one roof.
+        </p>
+        <div class="hero-cta">
+          <a href="#surgeries" class="btn btn-primary"><i class="ph ph-list-checks"></i> <span data-i18n="hero2.cta1">View all surgeries</span></a>
+          <a href="#appointment" class="btn btn-ghost"><i class="ph ph-calendar-check"></i> <span data-i18n="hero2.cta2">Book consultation</span></a>
         </div>
       </div>
-    </div>
+    </article>
+
+    <!-- Slide 3 — 30% OFF hearing aid offer -->
+    <article class="slide slide-offer" data-slide="2" aria-roledescription="slide" aria-label="3 of 4">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-overlay slide-overlay-gold" aria-hidden="true"></div>
+      <div class="container slide-content">
+        <div class="offer-stamp" aria-hidden="true">
+          <span class="num">30<sup>%</sup></span>
+          <span class="lbl" data-i18n="flyer.off">OFF</span>
+        </div>
+        <div class="hero-tag">
+          <i class="ph-fill ph-tag" style="color:var(--gold-300); font-size:0.85rem;"></i>
+          <span data-i18n="flyer.ribbon">Limited Time Offer</span>
+        </div>
+        <h1 data-i18n="hero3.title" data-i18n-html>
+          <span class="serif">30% off on</span><br>
+          <span class="italic-serif" style="color:var(--gold-300);">premium hearing aids.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="flyer.desc">
+          Includes a comprehensive hearing evaluation, fitting, and 30-day comfort trial. For new and returning patients.
+        </p>
+        <div class="hero-cta">
+          <a href="#appointment" class="btn btn-primary"><i class="ph ph-calendar-check"></i> <span data-i18n="flyer.cta">Book hearing test</span></a>
+          <a href="tel:07013029818" class="btn btn-ghost"><i class="ph ph-phone"></i> <span data-i18n="flyer.cta2">Call to reserve</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Slide 4 — Pediatric ENT -->
+    <article class="slide" data-slide="3" aria-roledescription="slide" aria-label="4 of 4">
+      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-overlay" aria-hidden="true"></div>
+      <div class="container slide-content">
+        <div class="hero-tag">
+          <span class="dot" style="background:#e6c481;"></span>
+          <span data-i18n="hero4.tag">Pediatric ENT · Gentle Care</span>
+        </div>
+        <h1 data-i18n="hero4.title" data-i18n-html>
+          <span class="serif">Gentle care</span><br>
+          <span class="accent">for little</span><br>
+          <span class="italic-serif" style="color:var(--gold-300);">patients.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero4.sub">
+          Specialised pediatric ENT — adenoids, tonsils, ear infections, speech &amp; hearing — delivered with patience and parent-friendly explanations.
+        </p>
+        <div class="hero-cta">
+          <a href="#appointment" class="btn btn-primary"><i class="ph ph-calendar-check"></i> <span data-i18n="hero4.cta1">Book for child</span></a>
+          <a href="#services" class="btn btn-ghost"><i class="ph ph-arrow-down"></i> <span data-i18n="hero4.cta2">Explore services</span></a>
+        </div>
+      </div>
+    </article>
+
   </div>
+
+  <button class="carousel-arrow carousel-prev" id="carouselPrev" type="button" aria-label="Previous slide">
+    <i class="ph ph-arrow-left"></i>
+  </button>
+  <button class="carousel-arrow carousel-next" id="carouselNext" type="button" aria-label="Next slide">
+    <i class="ph ph-arrow-right"></i>
+  </button>
+
+  <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Slide indicators"></div>
 </section>
 
 <!-- ============================== MARQUEE ============================== -->
@@ -2601,6 +3023,78 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ============================================================
+   HERO CAROUSEL
+   ============================================================ */
+(function() {
+  const slidesEl = document.getElementById('slides');
+  if (!slidesEl) return;
+  const slides = slidesEl.querySelectorAll('.slide');
+  const slideCount = slides.length;
+  const dotsContainer = document.getElementById('carouselDots');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  let current = 0;
+  let autoplayTimer = null;
+  const AUTOPLAY_MS = 6500;
+
+  // Build dots
+  for (let i = 0; i < slideCount; i++) {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.type = 'button';
+    d.setAttribute('role', 'tab');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', () => goTo(i, true));
+    dotsContainer.appendChild(d);
+  }
+  const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+  function goTo(i, userInitiated) {
+    current = (i + slideCount) % slideCount;
+    slidesEl.style.transform = 'translateX(-' + (current * 100) + '%)';
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    if (userInitiated) resetAutoplay();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startAutoplay() {
+    clearInterval(autoplayTimer);
+    autoplayTimer = setInterval(next, AUTOPLAY_MS);
+  }
+  function resetAutoplay() { startAutoplay(); }
+
+  prevBtn.addEventListener('click', () => { prev(); resetAutoplay(); });
+  nextBtn.addEventListener('click', () => { next(); resetAutoplay(); });
+
+  // Pause on hover
+  const heroEl = document.getElementById('heroCarousel');
+  heroEl.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+  heroEl.addEventListener('mouseleave', startAutoplay);
+
+  // Keyboard
+  heroEl.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { prev(); resetAutoplay(); }
+    if (e.key === 'ArrowRight') { next(); resetAutoplay(); }
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  heroEl.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  heroEl.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) next(); else prev();
+      resetAutoplay();
+    }
+  }, { passive: true });
+
+  startAutoplay();
+})();
+
+/* ============================================================
    REVEAL ON SCROLL
    ============================================================ */
 const io = new IntersectionObserver((entries) => {
@@ -2635,6 +3129,63 @@ const i18n = {
     'hero.stat1': 'Years practising',
     'hero.stat2': '441 Google reviews',
     'hero.stat3': 'Surgical procedures',
+
+    'hero2.tag': 'Surgical Excellence · In-house',
+    'hero2.title': '<span class="serif">Procedures performed</span><br><span class="accent">in-house —</span><br><span class="italic-serif" style="color:var(--gold-300);">with care.</span>',
+    'hero2.sub': 'From minimally-invasive endoscopic sinus surgery to advanced microlaryngeal work — a complete surgical practice under one roof.',
+    'hero2.cta1': 'View all surgeries',
+    'hero2.cta2': 'Book consultation',
+
+    'hero3.title': '<span class="serif">30% off on</span><br><span class="italic-serif" style="color:var(--gold-300);">premium hearing aids.</span>',
+
+    'hero4.tag': 'Pediatric ENT · Gentle Care',
+    'hero4.title': '<span class="serif">Gentle care</span><br><span class="accent">for little</span><br><span class="italic-serif" style="color:var(--gold-300);">patients.</span>',
+    'hero4.sub': 'Specialised pediatric ENT — adenoids, tonsils, ear infections, speech &amp; hearing — delivered with patience and parent-friendly explanations.',
+    'hero4.cta1': 'Book for child',
+    'hero4.cta2': 'Explore services',
+
+    'nav.conditions': 'ENT Conditions',
+    'cond.cat_ear': 'Ear',
+    'cond.cat_nose': 'Nose',
+    'cond.cat_throat': 'Throat',
+    'cond.cat_other': 'Other',
+    'cond.ear_wax': 'Ear Wax',
+    'cond.ear_discharge': 'Ear Discharge',
+    'cond.ear_pain': 'Ear Pain',
+    'cond.hearing_loss': 'Hearing Loss',
+    'cond.deafness_children': 'Deafness in Children',
+    'cond.dizziness': 'Dizziness',
+    'cond.eustachian': 'Eustachian Tube Dysfunction',
+    'cond.tinnitus': 'Tinnitus',
+    'cond.sinusitis': 'Sinusitis',
+    'cond.nasal_allergy': 'Nasal Allergy',
+    'cond.nose_bleeding': 'Nose Bleeding',
+    'cond.adenoids': 'Adenoids',
+    'cond.tonsillitis': 'Tonsillitis',
+    'cond.voice_change': 'Voice Change',
+    'cond.sleep_apnea': 'Snoring &amp; Sleep Apnea',
+    'cond.facial_paralysis': 'Facial Paralysis',
+    'cond.vertigo': 'Vertigo',
+
+    'surg.cat_ear': 'Ear Surgeries',
+    'surg.cat_nose': 'Nose Surgeries',
+    'surg.cat_throat': 'Throat &amp; Voice',
+    'surg.ossiculoplasty': 'Ossiculoplasty',
+    'surg.myringoplasty': 'Myringoplasty',
+    'surg.grommet': 'Myringotomy &amp; Grommet',
+    'surg.mastoidectomy': 'Mastoidectomy',
+    'surg.cochlear': 'Cochlear Implant',
+    'surg.stapes': 'Stapes Surgery',
+    'surg.et_balloon': 'Eustachian Tube Balloon',
+    'surg.balloon_sinuplasty': 'Balloon Sinuplasty',
+    'surg.csf_leak': 'CSF Leak Repair',
+    'surg.fess': 'Sinus Surgery (FESS)',
+    'surg.dcr': 'Endoscopic DCR',
+    'surg.septoplasty': 'Septoplasty &amp; Turbinate',
+    'surg.adenoidectomy': 'Adenoidectomy',
+    'surg.tonsillectomy': 'Tonsillectomy',
+    'surg.uppp': 'Snoring / OSA Surgery',
+    'surg.microlaryngoscopy': 'Microlaryngoscopy',
 
     'hv.est': 'EST. PRACTICE',
     'hv.location': 'Hyderabad',
@@ -2809,6 +3360,63 @@ const i18n = {
     'hero.stat1': 'سال تجربہ',
     'hero.stat2': '441 گوگل ریویوز',
     'hero.stat3': 'سرجیکل پروسیجرز',
+
+    'hero2.tag': 'سرجیکل مہارت · اِن ہاؤس',
+    'hero2.title': '<span class="serif">تمام پروسیجرز</span><br><span class="accent">اِن ہاؤس —</span><br><span class="italic-serif" style="color:var(--gold-300);">احتیاط کے ساتھ۔</span>',
+    'hero2.sub': 'کم سے کم چیر پھاڑ والی اینڈوسکوپک سائنس سرجری سے لے کر مائیکرولیرنجیل کام تک — ایک ہی چھت تلے مکمل سرجیکل پریکٹس۔',
+    'hero2.cta1': 'تمام سرجری دیکھیں',
+    'hero2.cta2': 'مشاورت بک کریں',
+
+    'hero3.title': '<span class="serif">سماعت کے آلات پر</span><br><span class="italic-serif" style="color:var(--gold-300);">30% رعایت۔</span>',
+
+    'hero4.tag': 'بچوں کی ENT · نرم دیکھ بھال',
+    'hero4.title': '<span class="serif">چھوٹے مریضوں کی</span><br><span class="accent">نرم</span><br><span class="italic-serif" style="color:var(--gold-300);">دیکھ بھال۔</span>',
+    'hero4.sub': 'بچوں کی خصوصی ENT — ایڈینائڈز، ٹانسلز، کان کے انفیکشن، بولنے اور سماعت کے مسائل — صبر اور والدین کے لیے آسان وضاحت کے ساتھ۔',
+    'hero4.cta1': 'بچے کے لیے بک کریں',
+    'hero4.cta2': 'خدمات دیکھیں',
+
+    'nav.conditions': 'ENT بیماریاں',
+    'cond.cat_ear': 'کان',
+    'cond.cat_nose': 'ناک',
+    'cond.cat_throat': 'گلا',
+    'cond.cat_other': 'دیگر',
+    'cond.ear_wax': 'کان کا میل',
+    'cond.ear_discharge': 'کان سے ریزش',
+    'cond.ear_pain': 'کان کا درد',
+    'cond.hearing_loss': 'سماعت میں کمی',
+    'cond.deafness_children': 'بچوں میں بہراپن',
+    'cond.dizziness': 'چکر آنا',
+    'cond.eustachian': 'یوسٹیشین ٹیوب کی خرابی',
+    'cond.tinnitus': 'ٹینیٹس / کان میں آوازیں',
+    'cond.sinusitis': 'سائنوسائٹس',
+    'cond.nasal_allergy': 'ناک کی الرجی',
+    'cond.nose_bleeding': 'ناک سے خون آنا',
+    'cond.adenoids': 'ایڈینائڈز',
+    'cond.tonsillitis': 'ٹانسلز',
+    'cond.voice_change': 'آواز کی تبدیلی',
+    'cond.sleep_apnea': 'خراٹے اور سلیپ ایپنیا',
+    'cond.facial_paralysis': 'چہرے کا فالج',
+    'cond.vertigo': 'ورٹیگو',
+
+    'surg.cat_ear': 'کان کی سرجری',
+    'surg.cat_nose': 'ناک کی سرجری',
+    'surg.cat_throat': 'گلا اور آواز',
+    'surg.ossiculoplasty': 'اوسیکیولوپلاسٹی',
+    'surg.myringoplasty': 'مائرنگوپلاسٹی',
+    'surg.grommet': 'مائرنگوٹومی اور گرومیٹ',
+    'surg.mastoidectomy': 'ماسٹوئڈیکٹومی',
+    'surg.cochlear': 'کوکلیئر امپلانٹ',
+    'surg.stapes': 'سٹیپس سرجری',
+    'surg.et_balloon': 'یوسٹیشین ٹیوب بلون',
+    'surg.balloon_sinuplasty': 'بلون سائنوپلاسٹی',
+    'surg.csf_leak': 'CSF لیک کی مرمت',
+    'surg.fess': 'سائنس سرجری (FESS)',
+    'surg.dcr': 'اینڈوسکوپک DCR',
+    'surg.septoplasty': 'سیپٹوپلاسٹی اور ٹربینیٹ',
+    'surg.adenoidectomy': 'ایڈینائڈیکٹومی',
+    'surg.tonsillectomy': 'ٹانسلیکٹومی',
+    'surg.uppp': 'خراٹے / سلیپ ایپنیا سرجری',
+    'surg.microlaryngoscopy': 'مائیکرولیرنگوسکوپی',
 
     'hv.est': 'قائم شدہ پریکٹس',
     'hv.location': 'حیدرآباد',
