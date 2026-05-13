@@ -320,8 +320,13 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 .nav-dropdown-col a:hover { color: var(--accent); padding-left: 4px; }
 .nav-dropdown-col a::after { display: none !important; }
 html[dir="rtl"] .nav-dropdown-col a:hover { padding-left: 0; padding-right: 4px; }
+.nav-dropdown-menu.nav-dropdown-menu--compact {
+  min-width: 280px;
+  padding: 1rem 1.25rem 0.85rem;
+}
 @media (max-width: 1100px) {
   .nav-dropdown-menu { min-width: 560px; }
+  .nav-dropdown-menu.nav-dropdown-menu--compact { min-width: 260px; }
 }
 @media (max-width: 820px) {
   .nav-dropdown-menu { display: none; }
@@ -2370,6 +2375,19 @@ html[lang="ur"] .appointment-form textarea {
           </div>
         </div>
       </div>
+      <div class="nav-dropdown">
+        <a href="#" tabindex="0"><span data-i18n="nav.hearing">Hearing Aids</span> <span class="caret">▾</span></a>
+        <div class="nav-dropdown-menu nav-dropdown-menu--compact" role="menu">
+          <div class="nav-dropdown-grid" style="grid-template-columns: 1fr;">
+            <div class="nav-dropdown-col">
+              <h5 data-i18n="hearing.cat">Hearing &amp; Balance</h5>
+              <a href="hearing-aids/hearing-evaluation.html" data-i18n="hearing.evaluation">Hearing Aids &amp; Evaluation</a>
+              <a href="hearing-aids/vestibular-balance.html" data-i18n="hearing.vestibular">Vestibular &amp; Balance Assessment</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="international-patients.html" data-i18n="nav.international">International Patients</a>
       <a href="#doctor" data-i18n="nav.about">About</a>
       <a href="#appointment" data-i18n="nav.appointment">Appointment</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
@@ -3157,6 +3175,11 @@ const i18n = {
     'hero4.cta2': 'Explore services',
 
     'nav.conditions': 'ENT Conditions',
+    'nav.hearing': 'Hearing Aids',
+    'nav.international': 'International Patients',
+    'hearing.cat': 'Hearing &amp; Balance',
+    'hearing.evaluation': 'Hearing Aids &amp; Evaluation',
+    'hearing.vestibular': 'Vestibular &amp; Balance Assessment',
     'cond.cat_ear': 'Ear',
     'cond.cat_nose': 'Nose',
     'cond.cat_throat': 'Throat',
@@ -3389,6 +3412,11 @@ const i18n = {
     'hero4.cta2': 'خدمات دیکھیں',
 
     'nav.conditions': 'ENT بیماریاں',
+    'nav.hearing': 'سماعت کے آلات',
+    'nav.international': 'بین الاقوامی مریض',
+    'hearing.cat': 'سماعت اور توازن',
+    'hearing.evaluation': 'سماعت کے آلات اور جائزہ',
+    'hearing.vestibular': 'ویسٹیبیولر اور توازن کا جائزہ',
     'cond.cat_ear': 'کان',
     'cond.cat_nose': 'ناک',
     'cond.cat_throat': 'گلا',

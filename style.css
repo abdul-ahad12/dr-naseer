@@ -303,8 +303,13 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 .nav-dropdown-col a:hover { color: var(--accent); padding-left: 4px; }
 .nav-dropdown-col a::after { display: none !important; }
 html[dir="rtl"] .nav-dropdown-col a:hover { padding-left: 0; padding-right: 4px; }
+.nav-dropdown-menu.nav-dropdown-menu--compact {
+  min-width: 280px;
+  padding: 1rem 1.25rem 0.85rem;
+}
 @media (max-width: 1100px) {
   .nav-dropdown-menu { min-width: 560px; }
+  .nav-dropdown-menu.nav-dropdown-menu--compact { min-width: 260px; }
 }
 @media (max-width: 820px) {
   .nav-dropdown-menu { display: none; }
