@@ -94,8 +94,38 @@
       <img src="../logo.png" alt="Dr. Naseer's ENT — Family Care Center" class="brand-logo" />
     </a>
     <div class="nav-links">
-      <a href="../#services">Services</a>
-      <a href="../#surgeries">Surgeries</a>
+      <div class="nav-dropdown">
+        <a href="../#surgeries" tabindex="0">Surgeries <span class="caret">▾</span></a>
+        <div class="nav-dropdown-menu" role="menu">
+          <div class="nav-dropdown-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="nav-dropdown-col">
+              <h5>Ear Surgeries</h5>
+              <a href="../surgeries/ossiculoplasty.html">Ossiculoplasty</a>
+              <a href="../surgeries/myringoplasty.html">Myringoplasty</a>
+              <a href="../surgeries/myringotomy-grommet.html">Myringotomy &amp; Grommet</a>
+              <a href="../surgeries/mastoidectomy.html">Mastoidectomy</a>
+              <a href="../surgeries/cochlear-implant.html">Cochlear Implant</a>
+              <a href="../surgeries/stapes-surgery.html">Stapes Surgery</a>
+              <a href="../surgeries/eustachian-balloon.html">Eustachian Tube Balloon</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5>Nose Surgeries</h5>
+              <a href="../surgeries/balloon-sinuplasty.html">Balloon Sinuplasty</a>
+              <a href="../surgeries/csf-leak-repair.html">CSF Leak Repair</a>
+              <a href="../surgeries/fess.html">Sinus Surgery (FESS)</a>
+              <a href="../surgeries/endoscopic-dcr.html">Endoscopic DCR</a>
+              <a href="../surgeries/septoplasty.html">Septoplasty &amp; Turbinate</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <h5>Throat &amp; Voice</h5>
+              <a href="../surgeries/adenoidectomy.html">Adenoidectomy</a>
+              <a href="../surgeries/tonsillectomy.html">Tonsillectomy</a>
+              <a href="../surgeries/sleep-apnea-surgery.html">Snoring / OSA Surgery</a>
+              <a href="../surgeries/microlaryngoscopy.html">Microlaryngoscopy</a>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="nav-dropdown">
         <a href="#" tabindex="0">ENT Conditions <span class="caret">▾</span></a>
         <div class="nav-dropdown-menu" role="menu">
@@ -290,18 +320,22 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Visit</h4>
+        <h4>Visit &amp; Legal</h4>
         <ul>
           <li><a href="https://maps.google.com/?q=Dr+Naseer+ENT+Tolichowki+Hyderabad" target="_blank" rel="noopener">Get Directions</a></li>
           <li><a href="../#contact">View on Map</a></li>
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Disclaimer</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms-and-conditions.html">Terms &amp; Conditions</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <div>© <span id="year"></span> Dr. Naseer's ENT — Family Care Center, Hyderabad.</div>
-      <div>For medical emergencies please call the clinic directly.</div>
+      <div class="footer-bottom-legal">
+        <a href="../privacy-policy.html">Privacy Policy</a>
+        <span aria-hidden="true">·</span>
+        <a href="../terms-and-conditions.html">Terms &amp; Conditions</a>
+      </div>
     </div>
   </div>
 </footer>

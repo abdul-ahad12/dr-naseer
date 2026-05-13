@@ -682,6 +682,281 @@ const surgeries = [
   }
 ];
 
+// ---------- Per-surgery Pre-op and Follow-up schedule ----------
+const extras = {
+  'ossiculoplasty': {
+    pre: [
+      'Fast for 6–8 hours before surgery; clear fluids permitted till 2 hours prior',
+      'Stop blood-thinning medication (aspirin, clopidogrel) 5–7 days before with cardiology clearance',
+      'Avoid ear drops for 48 hours prior unless specifically prescribed',
+      'Bring all previous audiograms, ear imaging, and a current medication list',
+      'Wash hair the morning of surgery; remove ear/face jewellery and makeup',
+      'Arrange a responsible adult to drive you home and stay overnight'
+    ],
+    followUps: [
+      'Day 1 — ear-canal dressing checked before discharge',
+      'Day 7 — outer dressing and stitches removed in clinic',
+      'Week 4 — microscopic ear canal cleaning to clear any granulations',
+      'Week 8 — first post-operative audiogram to measure hearing gain',
+      '3 months — final review with audiogram comparison'
+    ]
+  },
+  'myringoplasty': {
+    pre: [
+      'Fast for 6–8 hours; sips of water permitted till 2 hours pre-op',
+      'Stop blood thinners 5–7 days before with cardiology clearance',
+      'Avoid ear drops for 48 hours prior unless specifically prescribed',
+      'Bring audiograms, previous ear records, and a complete medication list',
+      'Hair wash the morning of surgery; remove ear/face piercings',
+      'Arrange transport and a companion at home for 24 hours'
+    ],
+    followUps: [
+      'Day 7 — outer dressing and stitches removed in clinic',
+      'Week 2 — ear canal gently cleared under direct vision',
+      'Week 6 — graft integrity reviewed; water restrictions discussed',
+      'Week 8 — post-operative audiogram',
+      '3 months — final review'
+    ]
+  },
+  'myringotomy-grommet': {
+    pre: [
+      'Fast 6 hours pre-op (longer for infants — follow the anaesthetist\'s exact instructions)',
+      'Inform the team about colds, fever, or antibiotics taken in the past week',
+      'Continue regular asthma or seizure medication unless told otherwise',
+      'Bring previous audiograms, ENT records, and the child\'s vaccination card',
+      'Comfortable change of clothes; a favourite soft toy for reassurance',
+      'One parent stays with the child throughout admission and discharge'
+    ],
+    followUps: [
+      'Day 1 — ear inspected before discharge; brief hearing check in older children',
+      'Week 1 — clinic review of grommet position and any discharge',
+      'Week 6 — first formal audiogram',
+      '3 months — routine review of tube patency',
+      '6 and 12 months — monitoring until the tube extrudes naturally'
+    ]
+  },
+  'mastoidectomy': {
+    pre: [
+      'Pre-operative admission for full work-up — imaging review, blood tests, fitness',
+      'Fast for 8 hours before surgery',
+      'Stop blood thinners 7 days before with cardiology approval',
+      'Hair clipped behind the ear on the day of surgery',
+      'High-resolution CT scan reviewed and consent process completed on admission',
+      'Companion advised at home for the first week after discharge'
+    ],
+    followUps: [
+      'Day 3 (in hospital) — drain removal and pressure dressing change',
+      'Day 7 — first outpatient clinic review for stitches and wound check',
+      'Week 3 — first microscopic cleaning of the mastoid cavity',
+      'Monthly for 3 months — cavity care and audiograms',
+      '6 and 12 months — long-term cavity stability checks'
+    ]
+  },
+  'cochlear-implant': {
+    pre: [
+      'Pneumococcal vaccination completed at least 2 weeks before surgery',
+      'Pre-operative CT and MRI of the inner ear and brain reviewed',
+      'Detailed audiology and speech baseline assessment in the same visit',
+      'Fast 6–8 hours pre-op',
+      'Hair clipped behind the ear; meticulous skin preparation',
+      'Pre-op counselling about the post-activation rehabilitation programme'
+    ],
+    followUps: [
+      'Day 1 — dressing check, wound monitoring, discharge planning',
+      'Week 1 — stitches removed, healing confirmed',
+      'Week 3–4 — external device activation and first mapping session',
+      'Weekly for 8 weeks — progressive mapping sessions with the audiologist',
+      '6 months — structured listening and language review'
+    ]
+  },
+  'stapes-surgery': {
+    pre: [
+      'Fast 6–8 hours pre-op; clear fluids till 2 hours prior',
+      'Stop blood thinners 5–7 days before with cardiology clearance',
+      'Baseline audiogram and tympanometry recorded in chart',
+      'Avoid ear drops for 48 hours pre-op',
+      'Hair wash and clean ears morning of surgery; remove all ear jewellery',
+      'Plan transport home — some patients feel dizzy for 24–48 hours'
+    ],
+    followUps: [
+      'Day 1 — ear canal inspected; dressing trimmed before discharge',
+      'Day 7 — outer ear-canal pack and stitches removed',
+      'Week 6 — post-operative audiogram and hearing comparison',
+      '3 months — pressure and audiogram review',
+      '6 months — long-term prosthesis position check'
+    ]
+  },
+  'eustachian-balloon': {
+    pre: [
+      'Fast 6 hours before surgery',
+      'Continue nasal sprays till the evening before, then pause',
+      'Bring tympanograms, audiograms, and any prior ENT records',
+      'Stop blood thinners 5 days pre-op with cardiology clearance',
+      'Day-care procedure — comfortable clothes, light meal the evening before',
+      'Companion to drive home'
+    ],
+    followUps: [
+      'Day 1 — discharge the same evening or the next morning',
+      'Week 2 — clinic review of nasal lining and Eustachian opening',
+      'Week 6 — tympanogram repeated and symptom score reassessed',
+      '3 months — final review with audiogram',
+      '12 months — durability check'
+    ]
+  },
+  'balloon-sinuplasty': {
+    pre: [
+      'Fast 6 hours pre-op; clear fluids till 2 hours prior',
+      'Pre-op CT of paranasal sinuses available in the chart',
+      'Stop NSAIDs and blood thinners 5 days before with cardiology clearance',
+      'Start saline rinses the evening before; pause sprays the morning of surgery',
+      'Avoid heavy meals the night before surgery',
+      'Companion to drive home'
+    ],
+    followUps: [
+      'Day 1 — phone check-in for comfort, bleeding, and pain control',
+      'Week 1 — nasal endoscopy and saline irrigation review',
+      'Week 4 — symptom score reassessed; nasal sprays adjusted',
+      'Week 12 — final symptom and endoscopy review',
+      '6 months — durability check'
+    ]
+  },
+  'csf-leak-repair': {
+    pre: [
+      'Full work-up — CT cisternography or MRI, ICP measurement when relevant',
+      'Prophylactic antibiotics started 24 hours pre-op per protocol',
+      'Fast 8 hours before surgery',
+      'Stop all blood thinners 7 days before',
+      'Counselling on the planned lumbar drain (if applicable) and bed-rest protocol',
+      'Family presence advised for psychological support post-op'
+    ],
+    followUps: [
+      'Days 1–7 (in hospital) — bed-rest, drain management, careful monitoring',
+      'Day 10–14 — discharge review and bed-rest taper',
+      'Week 4 — nasal endoscopy and graft check',
+      'Week 12 — confirmation of graft integration; ICP reassessed',
+      '6 and 12 months — long-term leak surveillance'
+    ]
+  },
+  'fess': {
+    pre: [
+      'Pre-op CT scan reviewed; image-guidance loaded if needed',
+      'Saline irrigation twice daily for the week before surgery',
+      'Short course of oral or intranasal steroid per protocol',
+      'Stop blood thinners 5–7 days before with cardiology clearance',
+      'Fast 6 hours pre-op',
+      'Companion to drive home post-discharge'
+    ],
+    followUps: [
+      'Day 7 — nasal endoscopy and first debridement in clinic',
+      'Week 3 — second debridement and irrigation review',
+      'Week 6 — full nasal endoscopy and symptom score',
+      'Week 12 — imaging review only if symptoms recur',
+      '6 months and annually — long-term surveillance'
+    ]
+  },
+  'endoscopic-dcr': {
+    pre: [
+      'Pre-op ophthalmology consult and lacrimal probing/imaging',
+      'Continue ophthalmic drops till the morning of surgery unless told otherwise',
+      'Fast 6 hours pre-op',
+      'Stop blood thinners 5 days before with clearance',
+      'Saline rinses started 24 hours before to clean the surgical field',
+      'Companion arranged for transport home'
+    ],
+    followUps: [
+      'Day 1 — dressing and eye care reviewed before discharge',
+      'Week 1 — nasal endoscopy and silicone stent position check',
+      'Week 6 — silicone stent removed in clinic',
+      'Week 12 — tear-drainage syringing and symptom score',
+      '6 months — durability check jointly with ophthalmology'
+    ]
+  },
+  'septoplasty': {
+    pre: [
+      'Fast 6 hours pre-op',
+      'Stop blood thinners and NSAIDs 5–7 days before surgery',
+      'Daily saline rinses for 2 days pre-op',
+      'Bring reference photographs of your nose so the external shape can be matched',
+      'Continue allergy medication unless told otherwise',
+      'Companion to drive home — ride-share is not advised on day 0'
+    ],
+    followUps: [
+      'Day 1 — splint and packing reviewed before discharge',
+      'Week 1 — splints and packs removed in clinic',
+      'Week 3 — nasal endoscopy and irrigation review',
+      'Week 6 — airway symptom assessment',
+      'Week 12 — final review, optional objective airflow test'
+    ]
+  },
+  'adenoidectomy': {
+    pre: [
+      'Fast 6 hours pre-op (anaesthetist gives specific instructions for infants)',
+      'Inform the team about recent colds, fever, or asthma episodes',
+      'Continue ear drops and asthma inhaler as advised',
+      'Bring the vaccination card and previous ENT records',
+      'Comfortable change of clothes; favourite blanket or toy for the child',
+      'One parent with the child throughout admission and discharge'
+    ],
+    followUps: [
+      'Day 1 — discharge after observation; pain control plan reviewed',
+      'Day 7 — clinic review of throat and nose healing',
+      'Week 4 — nasal endoscopy to confirm no early regrowth',
+      'Week 12 — hearing test if grommets were inserted at the same sitting',
+      '6 months — routine review'
+    ]
+  },
+  'tonsillectomy': {
+    pre: [
+      'Fast 6 hours pre-op',
+      'Stop NSAIDs (especially aspirin) at least 7 days before surgery',
+      'Inform the team about any sore throat or fever in the past week',
+      'Stop blood thinners with cardiology clearance',
+      'Stock soft, cool foods (ice cream, yogurt, broth) at home in advance',
+      'Plan 10–14 days off school or work'
+    ],
+    followUps: [
+      'Day 1 — discharge after observation; pain plan reviewed in detail',
+      'Day 7 — clinic visit for healing of the tonsillar beds',
+      'Week 3 — clearance to return to normal diet and activity',
+      'Week 6 — final review if any concerns persist'
+    ]
+  },
+  'sleep-apnea-surgery': {
+    pre: [
+      'Pre-op sleep study confirms severity and baseline AHI',
+      'Drug-induced sleep endoscopy (DISE) maps the levels of obstruction',
+      'Weight, blood pressure, and cardiac fitness optimised pre-op',
+      'Stop blood thinners 7 days before surgery',
+      'Fast 6 hours pre-op',
+      'Plan 2 weeks off work; soft, cool diet stocked at home'
+    ],
+    followUps: [
+      'Day 1 — pain control and swallowing reviewed before discharge',
+      'Day 7 — throat healing checked; fluid intake confirmed adequate',
+      'Week 3 — diet expansion and daytime alertness check',
+      'Week 12 — repeat sleep study to measure apnea reduction',
+      '6 months — long-term sleep and weight check'
+    ]
+  },
+  'microlaryngoscopy': {
+    pre: [
+      'Fast 6 hours pre-op',
+      'Voice rest for 2–3 days before surgery (in selected cases)',
+      'Stop NSAIDs 5–7 days pre-op',
+      'Stop blood thinners 7 days before with cardiology clearance',
+      'Bring previous laryngeal video records and audio samples if available',
+      'Companion to drive home — voice rest applies from immediately after surgery'
+    ],
+    followUps: [
+      'Day 1 — same-day discharge with strict voice-rest instructions',
+      'Week 1 — flexible nasendoscopy to check cord healing',
+      'Week 2 — voice therapy commences alongside healing',
+      'Week 6 — structured voice review',
+      'Week 12 — histology results plus functional voice analysis'
+    ]
+  }
+};
+
 // ---------- Template helpers ----------
 function buildRelated(current) {
   const same = surgeries.filter(s => s.cat === current.cat && s.slug !== current.slug).slice(0, 4);
@@ -700,6 +975,8 @@ function overviewHtml(paragraphs) {
 
 function pageHtml(s) {
   const descShort = s.summary.replace(/<[^>]+>/g, '').slice(0, 155);
+  const pre = (extras[s.slug] && extras[s.slug].pre) || [];
+  const followUps = (extras[s.slug] && extras[s.slug].followUps) || [];
   return `<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -795,7 +1072,6 @@ function pageHtml(s) {
       <img src="../logo.png" alt="Dr. Naseer's ENT — Family Care Center" class="brand-logo" />
     </a>
     <div class="nav-links">
-      <a href="../#services">Services</a>
       <div class="nav-dropdown">
         <a href="../#surgeries" tabindex="0">Surgeries <span class="caret">▾</span></a>
         <div class="nav-dropdown-menu" role="menu">
@@ -926,14 +1202,28 @@ function pageHtml(s) {
       </div>
 
       <div class="cp-section">
-        <h2><i class="ph ph-clock-counter-clockwise"></i> Recovery</h2>
+        <h2><i class="ph ph-clipboard-text"></i> Pre-Surgery Preparations</h2>
+        <ul class="cp-list">
+          ${listHtml(pre)}
+        </ul>
+      </div>
+
+      <div class="cp-section">
+        <h2><i class="ph ph-clock-counter-clockwise"></i> Post-Surgery Recovery</h2>
         <ul class="cp-list">
           ${listHtml(s.recovery)}
         </ul>
       </div>
 
       <div class="cp-section">
-        <h2><i class="ph ph-warning-circle"></i> Risks &amp; Considerations</h2>
+        <h2><i class="ph ph-calendar-blank"></i> Follow-up Schedule</h2>
+        <ul class="cp-list">
+          ${listHtml(followUps)}
+        </ul>
+      </div>
+
+      <div class="cp-section">
+        <h2><i class="ph ph-warning-circle"></i> Potential Complications</h2>
         <ul class="cp-list">
           ${listHtml(s.risks)}
         </ul>
@@ -1007,18 +1297,22 @@ function pageHtml(s) {
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Visit</h4>
+        <h4>Visit &amp; Legal</h4>
         <ul>
           <li><a href="https://maps.google.com/?q=Dr+Naseer+ENT+Tolichowki+Hyderabad" target="_blank" rel="noopener">Get Directions</a></li>
           <li><a href="../#contact">View on Map</a></li>
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Disclaimer</a></li>
+          <li><a href="../privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="../terms-and-conditions.html">Terms &amp; Conditions</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <div>© <span id="year"></span> Dr. Naseer's ENT — Family Care Center, Hyderabad.</div>
-      <div>For medical emergencies please call the clinic directly.</div>
+      <div class="footer-bottom-legal">
+        <a href="../privacy-policy.html">Privacy Policy</a>
+        <span aria-hidden="true">·</span>
+        <a href="../terms-and-conditions.html">Terms &amp; Conditions</a>
+      </div>
     </div>
   </div>
 </footer>
