@@ -197,14 +197,22 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 .brand-mark .ent-pop { color: var(--highlight); font-weight: 800; }
 .nav-links {
   display: flex;
-  gap: 2rem;
-  font-size: 0.9rem;
+  gap: 1.25rem;
+  font-size: 0.82rem;
   font-weight: 450;
+  align-items: center;
+}
+.nav-links > a,
+.nav-links .nav-dropdown > a {
+  white-space: nowrap;
 }
 .nav-links a {
   position: relative;
   color: var(--ink-soft);
   transition: color 0.2s ease;
+}
+@media (max-width: 1200px) {
+  .nav-links { gap: 0.9rem; font-size: 0.78rem; }
 }
 .nav-links a::after {
   content: "";
@@ -218,6 +226,20 @@ section { position: relative; padding: clamp(4rem, 9vw, 7rem) 0; }
 }
 .nav-links a:hover { color: var(--ink); }
 .nav-links a:hover::after { transform: scaleX(1); }
+
+/* Home page only — keep all 7 nav items on one line, no mid-word wrapping */
+.nav-home .nav-links {
+  gap: 1.25rem;
+  font-size: 0.82rem;
+  align-items: center;
+}
+.nav-home .nav-links > a,
+.nav-home .nav-links .nav-dropdown > a {
+  white-space: nowrap;
+}
+@media (max-width: 1200px) {
+  .nav-home .nav-links { gap: 0.9rem; font-size: 0.78rem; }
+}
 
 /* Nav dropdown (mega-menu) */
 .nav-dropdown {
