@@ -350,9 +350,159 @@ html[dir="rtl"] .nav-dropdown-col a:hover { padding-left: 0; padding-right: 4px;
   .nav-dropdown-menu { min-width: 560px; }
   .nav-dropdown-menu.nav-dropdown-menu--compact { min-width: 260px; }
 }
-@media (max-width: 820px) {
-  .nav-dropdown-menu { display: none; }
+
+/* ============================================================
+   MOBILE NAV (hamburger + slide-in drawer)
+   ============================================================ */
+.nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  transition: border-color 0.2s ease;
 }
+.nav-toggle:hover { border-color: var(--accent); }
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.3s cubic-bezier(.65,0,.35,1), opacity 0.2s ease;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 21, 50, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 95;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.nav-drawer-actions { display: none; }
+
+@media (max-width: 820px) {
+  .nav-toggle { display: flex; }
+  .nav-actions > .btn-primary { display: none; }
+  .nav-actions { gap: 0.4rem; }
+  .lang-toggle { padding: 0.4rem 0.6rem; font-size: 0.7rem; }
+  .lang-toggle .lang-sep, .lang-toggle .lang-next { display: none; }
+  .theme-toggle { width: 36px; height: 36px; }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(86vw, 360px);
+    height: 100vh;
+    background: var(--bg-elev);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 1.5rem 2rem;
+    gap: 0;
+    overflow-y: auto;
+    border-left: 1px solid var(--line);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.65,0,.35,1);
+    z-index: 110;
+    display: flex !important;
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-home .nav-links { font-size: 0.95rem; gap: 0; }
+
+  .nav-links > a,
+  .nav-links .nav-dropdown {
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+  }
+  .nav-links > a {
+    padding: 0.95rem 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .nav-links > a::after { display: none; }
+  .nav-links .nav-dropdown > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.95rem 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .nav-links .nav-dropdown::after { display: none; }
+  .nav-links .nav-dropdown .caret { transition: transform 0.25s ease; }
+  .nav-links .nav-dropdown.open .caret { transform: rotate(180deg); }
+
+  .nav-dropdown-menu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    min-width: 0;
+    width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    display: block !important;
+  }
+  .nav-dropdown-menu::before { display: none; }
+  .nav-dropdown.open .nav-dropdown-menu {
+    max-height: 1200px;
+    padding-bottom: 0.85rem;
+  }
+  .nav-dropdown-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 1rem !important;
+  }
+  .nav-dropdown-col h5 {
+    font-size: 0.65rem;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.35rem;
+  }
+  .nav-dropdown-col a {
+    font-size: 0.85rem;
+    padding: 0.32rem 0;
+  }
+
+  .nav-drawer-actions {
+    display: block;
+    width: 100%;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  .nav-drawer-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+html[dir="rtl"] .nav-links { right: auto; left: 0; transform: translateX(-100%); border-left: none; border-right: 1px solid var(--line); }
+html[dir="rtl"] .nav-links.open { transform: translateX(0); }
 .nav-actions { display: flex; align-items: center; gap: 0.75rem; }
 .theme-toggle {
   width: 38px; height: 38px;
@@ -1015,6 +1165,25 @@ html[dir="rtl"] .carousel-next { right: auto; left: 1.75rem; }
   color: var(--accent);
   margin-right: 0.5rem;
 }
+/* Service cards are now clickable */
+a.service-card { color: inherit; text-decoration: none; }
+.service-cta {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.75rem;
+  z-index: 2;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+a.service-card:hover .service-cta { opacity: 1; transform: translateX(0); }
+a.service-card:hover h3 { color: var(--accent); }
 
 /* ============================================================
    SURGERIES
@@ -2565,9 +2734,14 @@ html[lang="ur"] .appointment-form textarea {
         </div>
       </div>
       <a href="international-patients.html" data-i18n="nav.international">International Patients</a>
-      <a href="#doctor" data-i18n="nav.about">About</a>
+      <a href="about.html" data-i18n="nav.about">About</a>
       <a href="#appointment" data-i18n="nav.appointment">Appointment</a>
-      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a href="contact.html" data-i18n="nav.contact">Contact</a>
+      <div class="nav-drawer-actions">
+        <a href="#appointment" class="btn btn-primary">
+          <i class="ph-fill ph-calendar-check"></i> <span data-i18n="nav.book">Book Visit</span>
+        </a>
+      </div>
     </div>
     <div class="nav-actions">
       <button class="lang-toggle" id="langToggle" aria-label="Switch language" type="button">
@@ -2582,9 +2756,13 @@ html[lang="ur"] .appointment-form textarea {
       <a href="#appointment" class="btn btn-primary">
         <i class="ph-fill ph-calendar-check"></i> <span data-i18n="nav.book">Book Visit</span>
       </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" type="button">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
 <!-- ============================== HERO CAROUSEL ============================== -->
 <section class="hero hero-carousel" id="heroCarousel" aria-roledescription="carousel">
@@ -2740,7 +2918,7 @@ html[lang="ur"] .appointment-form textarea {
     </div>
 
     <div class="services-grid reveal">
-      <article class="service-card">
+      <a class="service-card" href="conditions/hearing-loss.html" aria-label="Ear Care">
         <span class="service-num">01</span>
         <div class="service-icon"><i class="ph ph-ear"></i></div>
         <h3 data-i18n="srv.ear">Ear Care</h3>
@@ -2749,9 +2927,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.ear.2">Ear pain &amp; discharge</li>
           <li data-i18n="srv.ear.3">Painless wax removal</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="conditions/sinusitis.html" aria-label="Nose Care">
         <span class="service-num">02</span>
         <div class="service-icon"><i class="ph ph-wind"></i></div>
         <h3 data-i18n="srv.nose">Nose Care</h3>
@@ -2760,9 +2939,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.nose.2">Nasal block, bleeding</li>
           <li data-i18n="srv.nose.3">Deviated septum</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="conditions/tonsillitis.html" aria-label="Throat Care">
         <span class="service-num">03</span>
         <div class="service-icon"><i class="ph ph-microphone"></i></div>
         <h3 data-i18n="srv.throat">Throat Care</h3>
@@ -2771,9 +2951,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.throat.2">Tonsillitis</li>
           <li data-i18n="srv.throat.3">Swallowing problems</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="conditions/adenoids.html" aria-label="Pediatric ENT">
         <span class="service-num">04</span>
         <div class="service-icon"><i class="ph ph-baby"></i></div>
         <h3 data-i18n="srv.ped">Pediatric ENT</h3>
@@ -2782,9 +2963,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.ped.2">Ear infections</li>
           <li data-i18n="srv.ped.3">Speech &amp; hearing issues</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="surgeries/fess.html" aria-label="Endoscopy">
         <span class="service-num">05</span>
         <div class="service-icon"><i class="ph ph-magnifying-glass-plus"></i></div>
         <h3 data-i18n="srv.endo">Endoscopy</h3>
@@ -2793,9 +2975,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.endo.2">Laryngeal endoscopy</li>
           <li data-i18n="srv.endo.3">In-clinic, same day</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="hearing-aids/vestibular-balance.html" aria-label="Vertigo and Balance">
         <span class="service-num">06</span>
         <div class="service-icon"><i class="ph ph-compass"></i></div>
         <h3 data-i18n="srv.vert">Vertigo &amp; Balance</h3>
@@ -2804,9 +2987,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.vert.2">Balance disorders</li>
           <li data-i18n="srv.vert.3">Positional testing</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="conditions/sleep-apnea.html" aria-label="Sleep and Snoring">
         <span class="service-num">07</span>
         <div class="service-icon"><i class="ph ph-moon-stars"></i></div>
         <h3 data-i18n="srv.sleep">Sleep &amp; Snoring</h3>
@@ -2815,9 +2999,10 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.sleep.2">Nasal obstruction</li>
           <li data-i18n="srv.sleep.3">Sleep evaluation</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
 
-      <article class="service-card">
+      <a class="service-card" href="hearing-aids/hearing-evaluation.html" aria-label="Hearing Care">
         <span class="service-num">08</span>
         <div class="service-icon"><i class="ph ph-ear-slash"></i></div>
         <h3 data-i18n="srv.hear">Hearing Care</h3>
@@ -2826,7 +3011,8 @@ html[lang="ur"] .appointment-form textarea {
           <li data-i18n="srv.hear.2">Hearing aid consultation</li>
           <li data-i18n="srv.hear.3">Tinnitus assessment</li>
         </ul>
-      </article>
+        <span class="service-cta" aria-hidden="true"><span data-i18n="srv.cta">Learn more</span> <i class="ph ph-arrow-up-right"></i></span>
+      </a>
     </div>
   </div>
 </section>
@@ -3252,10 +3438,11 @@ html[lang="ur"] .appointment-form textarea {
         <ul>
           <li><a href="#services" data-i18n="nav.services">Services</a></li>
           <li><a href="#surgeries" data-i18n="nav.surgeries">Surgeries</a></li>
-          <li><a href="#doctor" data-i18n="nav.about">About Dr. Naseer</a></li>
+          <li><a href="about.html" data-i18n="nav.about">About Dr. Naseer</a></li>
           <li><a href="#facility" data-i18n="nav.facility">Facility</a></li>
           <li><a href="#offer" data-i18n="footer.offer">Special Offer</a></li>
           <li><a href="#appointment" data-i18n="nav.appointment">Book Appointment</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
         </ul>
       </div>
 
@@ -3329,6 +3516,66 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 24);
 }, { passive: true });
+
+/* ============================================================
+   MOBILE NAV — hamburger + slide-in drawer + dropdown accordion
+   ============================================================ */
+(function() {
+  const toggle = document.getElementById('navToggle');
+  const links = document.querySelector('.nav-links');
+  const backdrop = document.getElementById('navBackdrop');
+  if (!toggle || !links || !backdrop) return;
+
+  function setOpen(isOpen) {
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    links.classList.toggle('open', isOpen);
+    backdrop.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    if (!isOpen) {
+      // collapse any open dropdowns when drawer closes
+      links.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+  }
+
+  toggle.addEventListener('click', () => {
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  backdrop.addEventListener('click', () => setOpen(false));
+
+  // Dropdown trigger inside drawer acts as accordion on mobile;
+  // any real link inside the drawer closes it.
+  links.addEventListener('click', (e) => {
+    if (window.innerWidth > 820) return;
+    const link = e.target.closest('a');
+    if (!link) return;
+    const parent = link.parentElement;
+    if (parent && parent.classList.contains('nav-dropdown')) {
+      // dropdown trigger — toggle accordion, don't navigate
+      e.preventDefault();
+      // close other dropdowns first
+      links.querySelectorAll('.nav-dropdown.open').forEach(d => {
+        if (d !== parent) d.classList.remove('open');
+      });
+      parent.classList.toggle('open');
+      return;
+    }
+    // a leaf link — let it navigate, but close the drawer first
+    setOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 820 && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+    }
+  });
+})();
 
 /* ============================================================
    HERO CAROUSEL
@@ -3527,6 +3774,7 @@ const i18n = {
     'srv.vert.1': 'Dizziness & vertigo', 'srv.vert.2': 'Balance disorders', 'srv.vert.3': 'Positional testing',
     'srv.sleep': 'Sleep & Snoring',
     'srv.sleep.1': 'Snoring & sleep apnea', 'srv.sleep.2': 'Nasal obstruction', 'srv.sleep.3': 'Sleep evaluation',
+    'srv.cta': 'Learn more',
     'srv.hear': 'Hearing Care',
     'srv.hear.1': 'Hearing evaluation', 'srv.hear.2': 'Hearing aid consultation', 'srv.hear.3': 'Tinnitus assessment',
 
@@ -3787,6 +4035,7 @@ const i18n = {
     'srv.vert.1': 'چکر آنا', 'srv.vert.2': 'توازن کی خرابی', 'srv.vert.3': 'پوزیشنل ٹیسٹنگ',
     'srv.sleep': 'نیند و خراٹے',
     'srv.sleep.1': 'خراٹے و سلیپ ایپنیا', 'srv.sleep.2': 'ناک کی رکاوٹ', 'srv.sleep.3': 'نیند کی جانچ',
+    'srv.cta': 'مزید جانیں',
     'srv.hear': 'سماعت کی نگہداشت',
     'srv.hear.1': 'سماعت کا معائنہ', 'srv.hear.2': 'ہیئرنگ ایڈ مشاورت', 'srv.hear.3': 'ٹینیٹس کی جانچ',
 

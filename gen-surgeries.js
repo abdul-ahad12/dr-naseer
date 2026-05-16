@@ -1189,9 +1189,14 @@ function pageHtml(s) {
         </div>
       </div>
       <a href="../international-patients.html">International Patients</a>
-      <a href="../#doctor">About</a>
+      <a href="../about.html">About</a>
       <a href="../#appointment">Appointment</a>
-      <a href="../#contact">Contact</a>
+      <a href="../contact.html">Contact</a>
+      <div class="nav-drawer-actions">
+        <a href="../#appointment" class="btn btn-primary">
+          <i class="ph-fill ph-calendar-check"></i> Book Visit
+        </a>
+      </div>
     </div>
     <div class="nav-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -1200,9 +1205,13 @@ function pageHtml(s) {
       <a href="../#appointment" class="btn btn-primary">
         <i class="ph-fill ph-calendar-check"></i> Book Visit
       </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" type="button">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
 
 <!-- HERO -->
 <section class="cp-hero">
@@ -1334,10 +1343,11 @@ function pageHtml(s) {
         <ul>
           <li><a href="../#services">Services</a></li>
           <li><a href="../#surgeries">Surgeries</a></li>
-          <li><a href="../#doctor">About Dr. Naseer</a></li>
+          <li><a href="../about.html">About Dr. Naseer</a></li>
           <li><a href="../#facility">Facility</a></li>
           <li><a href="../#offer">Special Offer</a></li>
           <li><a href="../#appointment">Book Appointment</a></li>
+          <li><a href="../contact.html">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1398,6 +1408,41 @@ function pageHtml(s) {
     nav.classList.toggle('scrolled', window.scrollY > 24);
   }, { passive: true });
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function() {
+    const toggle = document.getElementById('navToggle');
+    const links = document.querySelector('.nav-links');
+    const backdrop = document.getElementById('navBackdrop');
+    if (!toggle || !links || !backdrop) return;
+    function setOpen(isOpen) {
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      links.classList.toggle('open', isOpen);
+      backdrop.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (!isOpen) links.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    backdrop.addEventListener('click', () => setOpen(false));
+    links.addEventListener('click', (e) => {
+      if (window.innerWidth > 820) return;
+      const link = e.target.closest('a');
+      if (!link) return;
+      const parent = link.parentElement;
+      if (parent && parent.classList.contains('nav-dropdown')) {
+        e.preventDefault();
+        links.querySelectorAll('.nav-dropdown.open').forEach(d => { if (d !== parent) d.classList.remove('open'); });
+        parent.classList.toggle('open');
+        return;
+      }
+      setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 820 && toggle.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
+  })();
 </script>
 </body>
 </html>
