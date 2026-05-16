@@ -1606,6 +1606,161 @@ html[dir="rtl"] .carousel-next { right: auto; left: 1.75rem; }
 .footer-bottom-legal span { color: var(--ink-muted); opacity: 0.5; }
 
 /* ============================================================
+   NEWS & MEDIA / SPEAKING
+   ============================================================ */
+.media-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+[data-theme="dark"] .media-section { background: var(--navy-950); }
+
+.media-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-rows: 280px 280px;
+  gap: 1rem;
+}
+@media (max-width: 980px) {
+  .media-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 240px 240px 240px; }
+  .media-grid .media-card:first-child { grid-column: span 2; }
+}
+@media (max-width: 540px) {
+  .media-grid { grid-template-columns: 1fr; grid-template-rows: repeat(5, 220px); }
+  .media-grid .media-card:first-child { grid-column: auto; }
+}
+.media-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--primary);
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+.media-card:first-child { grid-row: span 2; }
+.media-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.6s ease;
+}
+.media-card:hover img { transform: scale(1.04); }
+.media-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(230, 196, 129, 0.4);
+  border-radius: 2px;
+  z-index: 2;
+  pointer-events: none;
+}
+.media-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 21, 50, 0.15) 0%, rgba(8, 21, 50, 0.85) 100%);
+  z-index: 1;
+}
+.media-card .badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 3;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--navy-900);
+  background: var(--gold-300);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.media-card .meta {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 3;
+  color: var(--cream);
+}
+.media-card .meta h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: var(--cream);
+}
+.media-card .meta .sub {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--gold-300);
+  letter-spacing: 0.06em;
+}
+
+/* Speaking strip — horizontal photo row */
+.speaking-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 880px) { .speaking-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .speaking-grid { grid-template-columns: 1fr; } }
+.speaking-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--primary);
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+.speaking-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.6s ease;
+}
+.speaking-card:hover img { transform: scale(1.04); }
+.speaking-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(8, 21, 50, 0.92) 100%);
+  z-index: 1;
+}
+.speaking-card .speaking-meta {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2;
+  color: var(--cream);
+}
+.speaking-card .speaking-meta .tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-300);
+  margin-bottom: 0.35rem;
+}
+.speaking-card .speaking-meta h4 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+}
+
+/* ============================================================
    FLYER / OFFER
    ============================================================ */
 .flyer-section {
@@ -2437,7 +2592,7 @@ html[lang="ur"] .appointment-form textarea {
 
     <!-- Slide 1 — Brand intro -->
     <article class="slide active" data-slide="0" aria-roledescription="slide" aria-label="1 of 4">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-bg" style="background-image: url('gallery/clinic-reception-wide.jpeg');" aria-hidden="true"></div>
       <div class="slide-overlay" aria-hidden="true"></div>
       <div class="container slide-content">
         <div class="hero-tag">
@@ -2462,7 +2617,7 @@ html[lang="ur"] .appointment-form textarea {
 
     <!-- Slide 2 — Surgical expertise -->
     <article class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 4">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-bg" style="background-image: url('gallery/surgery-endoscope-monitor.jpeg');" aria-hidden="true"></div>
       <div class="slide-overlay" aria-hidden="true"></div>
       <div class="container slide-content">
         <div class="hero-tag">
@@ -2486,7 +2641,7 @@ html[lang="ur"] .appointment-form textarea {
 
     <!-- Slide 3 — 30% OFF hearing aid offer -->
     <article class="slide slide-offer" data-slide="2" aria-roledescription="slide" aria-label="3 of 4">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-bg" style="background-image: url('gallery/clinic-consult-lounge.jpeg');" aria-hidden="true"></div>
       <div class="slide-overlay slide-overlay-gold" aria-hidden="true"></div>
       <div class="container slide-content">
         <div class="offer-stamp" aria-hidden="true">
@@ -2513,7 +2668,7 @@ html[lang="ur"] .appointment-form textarea {
 
     <!-- Slide 4 — Pediatric ENT -->
     <article class="slide" data-slide="3" aria-roledescription="slide" aria-label="4 of 4">
-      <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=1800&amp;q=80&amp;auto=format&amp;fit=crop');" aria-hidden="true"></div>
+      <div class="slide-bg" style="background-image: url('gallery/clinic-procedure-room.jpeg');" aria-hidden="true"></div>
       <div class="slide-overlay" aria-hidden="true"></div>
       <div class="container slide-content">
         <div class="hero-tag">
@@ -2712,7 +2867,7 @@ html[lang="ur"] .appointment-form textarea {
   <div class="container">
     <div class="doctor reveal">
       <div class="doctor-portrait">
-        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=900&amp;q=80&amp;auto=format&amp;fit=crop" alt="Dr. Mohammed Naseeruddin" class="dp-photo" loading="lazy" />
+        <img src="gallery/dr-naseer.jpeg" alt="Dr. Mohammed Naseeruddin" class="dp-photo" loading="lazy" />
         <div class="dp-overlay">
           <div class="dp-name" data-i18n="doc.portrait_name">Dr. Mohammed Naseeruddin</div>
           <div class="dp-creds" data-i18n="doc.portrait_creds">Senior ENT Consultant &amp; Surgeon</div>
@@ -2764,21 +2919,21 @@ html[lang="ur"] .appointment-form textarea {
     <div class="gallery-grid reveal">
       <div class="g-item">
         <div class="g-photo">
-          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&amp;q=80&amp;auto=format&amp;fit=crop" alt="Clinic reception and welcome lounge" loading="lazy" />
+          <img src="gallery/clinic-waiting-area.jpeg" alt="Clinic reception and welcome lounge" loading="lazy" />
           <span class="num">01 / Reception</span>
           <span class="label"><i class="ph ph-armchair"></i> <span data-i18n="fac.label1">Welcome Lounge</span></span>
         </div>
       </div>
       <div class="g-item">
         <div class="g-photo">
-          <img src="https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?w=900&amp;q=80&amp;auto=format&amp;fit=crop" alt="ENT examination room" loading="lazy" />
+          <img src="gallery/clinic-exam-chair.jpeg" alt="ENT examination room" loading="lazy" />
           <span class="num">02</span>
           <span class="label"><i class="ph ph-first-aid-kit"></i> <span data-i18n="fac.label2">Examination</span></span>
         </div>
       </div>
       <div class="g-item">
         <div class="g-photo">
-          <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&amp;q=80&amp;auto=format&amp;fit=crop" alt="Consult lounge interior" loading="lazy" />
+          <img src="gallery/clinic-consult-lounge.jpeg" alt="Consult lounge interior" loading="lazy" />
           <span class="num">03</span>
           <span class="label"><i class="ph ph-couch"></i> <span data-i18n="fac.label3">Consult Lounge</span></span>
         </div>
@@ -2797,6 +2952,107 @@ html[lang="ur"] .appointment-form textarea {
       </blockquote>
       <div class="attribution" data-i18n="test.attr" data-i18n-html>
         <strong>Verified Patient</strong> · Google Review · 4.9★ average over 441 reviews
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== NEWS & MEDIA ============================== -->
+<section id="media" class="media-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow" data-i18n="media.eyebrow">News &amp; Media</span>
+        <h2 style="margin-top: 1.25rem;" data-i18n="media.title" data-i18n-html>Dr. Naseer on <em>television &amp; in print.</em></h2>
+      </div>
+      <p data-i18n="media.intro">Regular guest on TV5 News health segments and an invited speaker at national and regional ENT events — bringing clinically grounded perspectives on sinusitis, otitis, hearing care, and pediatric ENT.</p>
+    </div>
+
+    <div class="media-grid reveal">
+      <article class="media-card">
+        <img src="gallery/media-tv5-promo.jpeg" alt="TV5 News promotion poster — Dr. Mohammed Naseeruddin on managing sinusitis" loading="lazy" />
+        <span class="badge">TV5 News</span>
+        <div class="meta">
+          <h3 data-i18n="media.tv5_promo">"How to manage sinusitis" — featured on TV5 News with Apollo Spectra Hospitals.</h3>
+          <div class="sub" data-i18n="media.tv5_promo_sub">Health segment · Live broadcast</div>
+        </div>
+      </article>
+
+      <article class="media-card">
+        <img src="gallery/media-tv5-live-1.jpeg" alt="Dr. Naseer live on TV5 News discussing nasal allergy" loading="lazy" />
+        <span class="badge">Live · TV5</span>
+        <div class="meta">
+          <h3 data-i18n="media.tv5_live1">Live panel on chronic sinusitis &amp; allergic rhinitis.</h3>
+        </div>
+      </article>
+
+      <article class="media-card">
+        <img src="gallery/media-tv5-live-2.jpeg" alt="Dr. Naseer on TV5 News discussing sinus pain and headaches" loading="lazy" />
+        <span class="badge">Live · TV5</span>
+        <div class="meta">
+          <h3 data-i18n="media.tv5_live2">Sinus pain, headaches, and when to see an ENT.</h3>
+        </div>
+      </article>
+
+      <article class="media-card">
+        <img src="gallery/media-tv5-sinusitis.jpeg" alt="TV5 News on-air segment on sinusitis symptoms" loading="lazy" />
+        <span class="badge">Health</span>
+        <div class="meta">
+          <h3 data-i18n="media.tv5_symptoms">Recognising the four cardinal symptoms of sinusitis.</h3>
+        </div>
+      </article>
+
+      <article class="media-card">
+        <img src="gallery/pedicon-2025-trophy.jpeg" alt="Dr. Naseer at the 62nd National Conference of the Indian Academy of Pediatrics" loading="lazy" />
+        <span class="badge">Pedicon 2025</span>
+        <div class="meta">
+          <h3 data-i18n="media.pedicon">62nd National Conference of the Indian Academy of Pediatrics — invited speaker.</h3>
+          <div class="sub" data-i18n="media.pedicon_sub">Hyderabad · January 2025</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SPEAKING & EDUCATION ============================== -->
+<section id="speaking">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow" data-i18n="speak.eyebrow">Speaking &amp; Education</span>
+        <h2 style="margin-top: 1.25rem;" data-i18n="speak.title" data-i18n-html>Teaching the <em>next generation</em> of clinicians.</h2>
+      </div>
+      <p data-i18n="speak.intro">Regular faculty at OtoMentor, Pedicon, and regional CME programmes — sharing real-world cases with ENT and pediatric colleagues from across India.</p>
+    </div>
+
+    <div class="speaking-grid reveal">
+      <div class="speaking-card">
+        <img src="gallery/speaking-otomentor-podium.jpeg" alt="Dr. Naseer speaking at OtoMentor forum" loading="lazy" />
+        <div class="speaking-meta">
+          <span class="tag" data-i18n="speak.otomentor_tag">OtoMentor · GSK</span>
+          <h4 data-i18n="speak.otomentor_title">Expert forum on otoscope use and case-based ENT decisions</h4>
+        </div>
+      </div>
+      <div class="speaking-card">
+        <img src="gallery/speaking-otitis-slide.jpeg" alt="Dr. Naseer presenting on differentiating Otitis Externa from AOM" loading="lazy" />
+        <div class="speaking-meta">
+          <span class="tag" data-i18n="speak.otitis_tag">CME · Otology</span>
+          <h4 data-i18n="speak.otitis_title">Differentiating Otitis Externa from Acute Otitis Media</h4>
+        </div>
+      </div>
+      <div class="speaking-card">
+        <img src="gallery/speaking-pedicon-aom.jpeg" alt="Dr. Naseer presenting at Pedicon 2025 on antimicrobial therapy" loading="lazy" />
+        <div class="speaking-meta">
+          <span class="tag" data-i18n="speak.aom_tag">Pedicon · 2025</span>
+          <h4 data-i18n="speak.aom_title">Antimicrobial therapy for recurrent acute otitis media</h4>
+        </div>
+      </div>
+      <div class="speaking-card">
+        <img src="gallery/speaking-conference-projector.jpeg" alt="Dr. Naseer at a regional CME program" loading="lazy" />
+        <div class="speaking-meta">
+          <span class="tag" data-i18n="speak.cme_tag">Regional CME</span>
+          <h4 data-i18n="speak.cme_title">Case-based learning sessions with peers</h4>
+        </div>
       </div>
     </div>
   </div>
@@ -3312,6 +3568,29 @@ const i18n = {
     'test.body': 'Dr. Naseer takes the time to actually <em>examine, listen,</em> and explain. After three years of recurring sinus issues elsewhere, my treatment plan here finally made sense — and finally worked.',
     'test.attr': '<strong>Verified Patient</strong> · Google Review · 4.9★ average over 441 reviews',
 
+    'media.eyebrow': 'News &amp; Media',
+    'media.title': 'Dr. Naseer on <em>television &amp; in print.</em>',
+    'media.intro': 'Regular guest on TV5 News health segments and an invited speaker at national and regional ENT events — bringing clinically grounded perspectives on sinusitis, otitis, hearing care, and pediatric ENT.',
+    'media.tv5_promo': '"How to manage sinusitis" — featured on TV5 News with Apollo Spectra Hospitals.',
+    'media.tv5_promo_sub': 'Health segment · Live broadcast',
+    'media.tv5_live1': 'Live panel on chronic sinusitis &amp; allergic rhinitis.',
+    'media.tv5_live2': 'Sinus pain, headaches, and when to see an ENT.',
+    'media.tv5_symptoms': 'Recognising the four cardinal symptoms of sinusitis.',
+    'media.pedicon': '62nd National Conference of the Indian Academy of Pediatrics — invited speaker.',
+    'media.pedicon_sub': 'Hyderabad · January 2025',
+
+    'speak.eyebrow': 'Speaking &amp; Education',
+    'speak.title': 'Teaching the <em>next generation</em> of clinicians.',
+    'speak.intro': 'Regular faculty at OtoMentor, Pedicon, and regional CME programmes — sharing real-world cases with ENT and pediatric colleagues from across India.',
+    'speak.otomentor_tag': 'OtoMentor · GSK',
+    'speak.otomentor_title': 'Expert forum on otoscope use and case-based ENT decisions',
+    'speak.otitis_tag': 'CME · Otology',
+    'speak.otitis_title': 'Differentiating Otitis Externa from Acute Otitis Media',
+    'speak.aom_tag': 'Pedicon · 2025',
+    'speak.aom_title': 'Antimicrobial therapy for recurrent acute otitis media',
+    'speak.cme_tag': 'Regional CME',
+    'speak.cme_title': 'Case-based learning sessions with peers',
+
     'flyer.off': 'OFF',
     'flyer.ribbon': 'Limited Time Offer',
     'flyer.title': '<em>30% off</em> on premium hearing aids',
@@ -3548,6 +3827,29 @@ const i18n = {
 
     'test.body': 'ڈاکٹر نصیر واقعی <em>وقت لگا کر معائنہ، سننا</em> اور سمجھانا جانتے ہیں۔ تین سال دوسری جگہوں پر سائنس کے مسائل کے بعد، یہاں آ کر علاج آخر کار سمجھ آیا — اور کام بھی کیا۔',
     'test.attr': '<strong>تصدیق شدہ مریض</strong> · گوگل ریویو · 441 ریویوز پر 4.9★ اوسط',
+
+    'media.eyebrow': 'خبریں اور میڈیا',
+    'media.title': 'ڈاکٹر نصیر <em>ٹیلی ویژن اور پرنٹ میں</em>',
+    'media.intro': 'TV5 نیوز کے ہیلتھ سیگمنٹس میں باقاعدہ مہمان اور قومی و علاقائی ENT تقریبات میں مدعو مقرر — سائنوسائٹس، اوٹائٹس، سماعت اور بچوں کی ENT پر طبی بصیرت کے ساتھ۔',
+    'media.tv5_promo': '"سائنوسائٹس کا انتظام" — TV5 نیوز پر اپولو اسپیکٹرا ہاسپٹلز کے ساتھ۔',
+    'media.tv5_promo_sub': 'ہیلتھ سیگمنٹ · لائیو نشریات',
+    'media.tv5_live1': 'دائمی سائنوسائٹس اور الرجک ناک سوزش پر لائیو پینل۔',
+    'media.tv5_live2': 'سائنس درد، سر درد، اور ENT کب دکھائیں۔',
+    'media.tv5_symptoms': 'سائنوسائٹس کی چار اہم علامات کی پہچان۔',
+    'media.pedicon': 'انڈین اکیڈمی آف پیڈیاٹرکس کی 62ویں قومی کانفرنس — مدعو مقرر۔',
+    'media.pedicon_sub': 'حیدرآباد · جنوری 2025',
+
+    'speak.eyebrow': 'تدریس اور تعلیم',
+    'speak.title': 'طبیبوں کی <em>اگلی نسل</em> کی تربیت۔',
+    'speak.intro': 'OtoMentor، Pedicon اور علاقائی CME پروگراموں میں باقاعدہ فیکلٹی — پورے بھارت کے ENT اور پیڈیاٹرک ساتھیوں کے ساتھ حقیقی کیسز کا تبادلہ۔',
+    'speak.otomentor_tag': 'OtoMentor · GSK',
+    'speak.otomentor_title': 'اوٹوسکوپ کے استعمال اور ENT فیصلوں پر ماہرین کا فورم',
+    'speak.otitis_tag': 'CME · اوٹولوجی',
+    'speak.otitis_title': 'اوٹائٹس ایکسٹرنا اور اکیوٹ اوٹائٹس میڈیا کا فرق',
+    'speak.aom_tag': 'Pedicon · 2025',
+    'speak.aom_title': 'بار بار ہونے والے اکیوٹ اوٹائٹس میڈیا کا اینٹی بائیوٹک علاج',
+    'speak.cme_tag': 'علاقائی CME',
+    'speak.cme_title': 'ساتھیوں کے ساتھ کیس بیسڈ لرننگ سیشنز',
 
     'flyer.off': 'رعایت',
     'flyer.ribbon': 'محدود وقت کی پیشکش',

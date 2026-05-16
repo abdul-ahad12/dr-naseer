@@ -977,6 +977,12 @@ function pageHtml(s) {
   const descShort = s.summary.replace(/<[^>]+>/g, '').slice(0, 155);
   const pre = (extras[s.slug] && extras[s.slug].pre) || [];
   const followUps = (extras[s.slug] && extras[s.slug].followUps) || [];
+  // Category-based hero image (uses real clinic photos)
+  const heroImg = {
+    ear: '../gallery/surgery-endoscope-monitor.jpeg',
+    nose: '../gallery/surgery-in-progress.jpeg',
+    throat: '../gallery/surgery-ot-team.jpeg'
+  }[s.cat] || '../gallery/surgery-endoscope-monitor.jpeg';
   return `<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -1013,6 +1019,36 @@ function pageHtml(s) {
   .cp-meta { display: flex; gap: clamp(1.5rem, 3vw, 2.5rem); margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px dashed var(--line-strong); font-size: 0.85rem; flex-wrap: wrap; }
   .cp-meta .k { display:block; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.3rem; }
   .cp-meta .v { display:block; font-family: 'Fraunces', serif; color: var(--ink); font-size: 1.05rem; }
+  .cp-hero-img {
+    margin-top: 2rem;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 21 / 9;
+    position: relative;
+    isolation: isolate;
+  }
+  @media (max-width: 760px) { .cp-hero-img { aspect-ratio: 4 / 3; } }
+  .cp-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cp-hero-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(8,21,50,0.6) 100%);
+    pointer-events: none;
+  }
+  .cp-hero-img .caption {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 1.1rem;
+    color: var(--cream);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .cp-hero-img .caption i { margin-right: 0.4rem; color: var(--gold-300); }
 
   .cp-body { padding: clamp(3rem, 6vw, 5rem) 0; }
   .cp-grid { display: grid; grid-template-columns: 1fr 300px; gap: clamp(2rem, 5vw, 4rem); }
@@ -1186,6 +1222,10 @@ function pageHtml(s) {
       <div><span class="k">Duration</span><span class="v">${s.duration}</span></div>
       <div><span class="k">Anaesthesia</span><span class="v">${s.anaesthesia}</span></div>
       <div><span class="k">Approach</span><span class="v">${s.approach}</span></div>
+    </div>
+    <div class="cp-hero-img">
+      <img src="${heroImg}" alt="In-clinic ENT surgical setup" loading="lazy" />
+      <span class="caption"><i class="ph-fill ph-scissors"></i> In-house surgical practice · Dr. Naseer's ENT</span>
     </div>
   </div>
 </section>
